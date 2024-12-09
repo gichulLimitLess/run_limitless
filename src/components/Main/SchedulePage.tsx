@@ -42,6 +42,8 @@ function SchedulePage() {
   const [monthlyPlan, setMonthlyPlan] = useState<{date: string; eventCount: number}[]>([]);
   const [selectedDateEvent, setSelectedDateEvent] = useState<{postId: 1, title: string, date: string, location: string}[]>([]);
 
+  const navigate = useNavigate();
+
   //캘린더 월별 조회 메소드
   async function fetchMonthlyData() {
     const formattedPointDate = format(pointDate, 'yyyy-MM-dd'); //pointDate(기준이 되는 날짜) 포맷팅
@@ -154,6 +156,11 @@ function SchedulePage() {
       setSelectedDate(date);
     }
   };
+
+  //게시글 이동
+  const handleNavigateToNotice = (postId: number) => {
+    navigate(`/run/post/${postId}`);
+  }
 
   //플로팅 버튼을 눌렀을 때.. 동작하는 floatingButton
   const toggleFloatingButton = () => {
@@ -281,7 +288,7 @@ function SchedulePage() {
           selectedDateEvent && selectedDateEvent.length !== 0 ? (
             selectedDateEvent.map((event, index) => (
               //일정을 표현하는 카드 섹션
-              <div key={index} className="w-full max-w-sm bg-white border border-gray-300 rounded-lg p-2 shadow-sm mb-4 flex flex-row items-center">
+              <div key={index} onClick={() => handleNavigateToNotice(event.postId)} className="w-full max-w-sm bg-white border border-gray-300 rounded-lg p-2 shadow-sm mb-4 flex flex-row items-center">
                 <div className={`w-2 h-2 ml-2 ${markerColor[index]} rounded-full`}/>
                 <div className="pl-4 flex flex-col items-start">
                   <p className="text-gray-800 font-medium">{event.title}</p>
